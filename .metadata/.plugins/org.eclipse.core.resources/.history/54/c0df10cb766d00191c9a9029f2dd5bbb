@@ -1,0 +1,107 @@
+package tsp;
+
+/**  
+ * @author lichuang  
+ * 旅行商人问题
+ * 设定一些城市在地图上
+ */
+
+public class TSP {
+
+	public static int maxGenerations = 1200;
+	
+	public static void main(String[] args) {
+		
+		// 开始时间
+		//long startTime = System.currentTimeMillis();
+		
+		// 初始设置城市坐标		
+		int citiesPos[][] = {{9, 86}, {36, 16}, {97, 52}, {90, 75}, {32, 14},
+							{45, 81}, {38, 94}, {13, 87}, {64, 34}, {79, 43}, 
+							{99, 18}, {2, 79}, {31, 53}, {11, 37}, {79, 10}, 
+							{71, 78}, {73, 19}, {94, 58}, {64, 65}, {92, 98}, 
+							{68, 52}, {94, 42}, {23, 98}, {56, 7}, {78, 85}, 
+							{76, 14}, {23, 65}, {17, 35}, {33, 97}, {7, 61}};
+								
+		// 设置不可直达城市
+		int noArriveCities[][] = new int[citiesPos.length][citiesPos.length];
+		for (int i = 0; i < noArriveCities.length; i++) {
+			for (int j = 0; j < noArriveCities.length; j++) {
+				if ((i+j)%2 == 0) {			// 随机创造不可达城市
+					noArriveCities[i][j] = 0;		// 0为不可以直达
+				} else {
+					noArriveCities[i][j] = 1;		// 1为可以直达
+				}
+			}
+		}		
+		
+		City cities[] = new City[citiesPos.length];		// 城市数组
+		
+		// 初始化城市的位置
+		for (int cityIndex = 0; cityIndex < citiesPos.length; cityIndex++) {
+			double xPos = citiesPos[cityIndex][0];
+			double yPos = citiesPos[cityIndex][1];			
+			cities[cityIndex] = new City(xPos, yPos);	
+		}
+		
+		int time = 1;
+		while(time <= 10) {
+			
+			// 创建GA对象 		成员数; 变异率; 交叉率;  精英数;
+			GeneticAlgorithm ga = new GeneticAlgorithm(150, 0.008, 0.9, 25);	
+			// 模拟退火算法  			成员数; 变异率; 交叉率; 精英数; 冷却率
+			//GeneticAlgorithm ga = new GeneticAlgorithm(150, 0.01, 0.9, 25, 0.05);			
+			// 创建初始种群
+			Population population = ga.initPopulation(cities.length);		
+			// 种群初始的适应度值计算
+			ga.evaluatePopulation(population, cities);		
+			// 当前世代数
+			int generation = 1;
+			
+			// 开始循环进化
+			while (ga.isTerminalCondition(generation, maxGenerations) == false) {
+			
+				// 每一代打印出最佳个体l
+				//Route route = new Route(population.getFittest(0), cities);
+				// 输出种群的适应个体
+				//System.out.println(route.getDistance());
+				// 输出最佳个体适应度
+				//System.out.println(population.getFittest(0).getFitness());
+				// 输出种群的总体适应度
+				//System.out.println("; " + population.getPopulationFitness());
+				
+				// 交叉操作
+				ga.noAdaptiveCrossoverPopulation(population);
+				//ga.adaptiveCrossoverPopulation(population);
+				
+				// 变异操作
+				ga.noAdaptiveMutatePopulation(population);
+				//ga.adaptiveMutatePopulation(population);
+				
+				// 合法性调整
+				// TODO ???????存疑
+				ga.judgement(population, noArriveCities);
+				
+				// 种群适应度计算
+				ga.evaluatePopulation(population, cities);
+				
+				// 世代数增加
+				generation ++;	
+				// 调整温度
+				//ga.coolTemperature();
+			}
+			
+			// 打印最终结果
+			//System.out.println("Stopped after " + maxGenerations + " generations.");
+			Route route = new Route(population.getFittest(0), cities);
+			//System.out.println("Best distance: " + route.getDistance());
+			System.out.println("T" + time + ": " + route.getDistance() + "; " + population.getFittest(0).getFitness());
+			//System.out.println("T" + time + ": " + route.getDistance());
+			time ++;
+		}
+		// 结束时间
+		//long endTime = System.currentTimeMillis();
+		//System.out.println("Running time: " + (endTime - startTime));
+	}
+
+}

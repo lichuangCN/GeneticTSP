@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 6 elements to &apos;GTSP/src&apos;&#x0D;&#x0A;- Original project: &apos;GeneticTSP&apos;&#x0D;&#x0A;- Destination element: &apos;GTSP/src&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     tsp.City.java&#x0D;&#x0A;     tsp.GeneticAlgorithm.java&#x0D;&#x0A;     tsp.Population.java&#x0D;&#x0A;     tsp.TSP.java&#x0D;&#x0A;     tsp.Traveler.java&#x0D;&#x0A;     tsp.Route.java" description="Copy compilation units" destination="=GTSP/src" element1="/src&lt;tsp{City.java" element2="/src&lt;tsp{GeneticAlgorithm.java" element3="/src&lt;tsp{Population.java" element4="/src&lt;tsp{TSP.java" element5="/src&lt;tsp{Traveler.java" element6="/src&lt;tsp{Route.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1556850785052" units="6" version="1.0"/>
+</session>
